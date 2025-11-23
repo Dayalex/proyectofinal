@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documento: Gestión de Incidentes Web</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1, h2, h3 { color: #2C3E50; }
+        h1 { border-bottom: 3px solid #3498DB; padding-bottom: 10px; }
+        h2 { color: #3498DB; margin-top: 25px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #ECF0F1; }
+        .phase-list { list-style-type: decimal; padding-left: 20px; }
+        .sub-list { list-style-type: disc; margin-top: 5px; }
+        .note { background-color: #F9EBEA; border-left: 5px solid #E74C3C; padding: 10px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>🚨 Documento: Gestión de Incidentes Web 🚨</h1>
+
+    <p>Este documento define los componentes esenciales para una estrategia efectiva de respuesta y manejo de incidentes que afecten la disponibilidad, integridad o confidencialidad de una plataforma web.</p>
+
+    <h2>1. Tipos de Incidentes Web</h2>
+    <p>Un **incidente web** es cualquier evento no deseado que interrumpe el servicio o compromete la seguridad del sistema.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo de Incidente</th>
+                <th>Descripción</th>
+                <th>Ejemplos Comunes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>**Seguridad**</td>
+                <td>Infracciones que comprometen la **confidencialidad** o **integridad** de datos y sistemas.</td>
+                <td>Ataques de Inyección SQL, Cross-Site Scripting (XSS), Malware, Defacement, Phishing.</td>
+            </tr>
+            <tr>
+                <td>**Disponibilidad**</td>
+                <td>Problemas que impiden o limitan el acceso normal al sitio web.</td>
+                <td>Caída total del servidor, **Ataques de Denegación de Servicio (DDoS)**, errores de base de datos.</td>
+            </tr>
+            <tr>
+                <td>**Funcionalidad**</td>
+                <td>Fallo en el código o la lógica de la aplicación.</td>
+                <td>Formularios que no funcionan, enlaces rotos (**Error 404**), errores en el proceso de pago.</td>
+            </tr>
+            <tr>
+                <td>**Rendimiento**</td>
+                <td>Ralentización significativa de los tiempos de respuesta del sitio.</td>
+                <td>Latencia alta de la base de datos, sobrecarga de recursos por tráfico inesperado.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Pasos de Detección</h2>
+    <p>La detección debe ser **proactiva** mediante la monitorización continua.</p>
+
+    <ol class="phase-list">
+        <li>**Monitoreo Continuo:** Implementación de herramientas que vigilen la salud del sistema 24/7.
+            <ul class="sub-list">
+                <li>**Disponibilidad:** *Ping*, verificación de códigos de respuesta HTTP (ej. 500, 503).</li>
+                <li>**Rendimiento:** Tiempos de carga, uso de CPU/RAM del servidor.</li>
+                <li>**Seguridad:** Monitoreo de *logs* de *firewall* (WAF) y sistemas de detección de intrusiones (IDS).</li>
+            </ul>
+        </li>
+        <li>**Generación de Alertas:** Configurar umbrales claros para que las herramientas emitan una **alerta** (ej. "CPU > 80% por 5 minutos").</li>
+        <li>**Triaje y Verificación:** Un miembro del equipo verifica la autenticidad de la alerta para determinar si es un incidente real y clasificar su **severidad** e **impacto**. 
+
+[Image of incident severity matrix]
+</li>
+        <li>**Clasificación y Notificación:** Asignar una prioridad (Crítico, Alto, Medio, Bajo) e iniciar el protocolo de comunicación.</li>
+    </ol>
+
+    <h2>3. Comunicación Interna</h2>
+    <p>La comunicación debe ser rápida, precisa y centralizada.</p>
+
+    <ul>
+        <li>**Canal Único Designado:** Establecer un canal principal para el incidente (ej. un canal específico de Slack o un *bridge* de conferencia) para centralizar toda la información y evitar la dispersión.</li>
+        <li>**Roles Claros:** Definir las responsabilidades antes de que ocurra el incidente:
+            <ul class="sub-list">
+                <li>**Líder de Incidente (*Incident Commander*):** Coordina al equipo y toma las decisiones finales.</li>
+                <li>**Técnicos (*Responders*):** Ejecutan las acciones de contención y recuperación.</li>
+                <li>**Comunicador (*Comms Lead*):** Emite actualizaciones internas y externas (si aplica).</li>
+            </ul>
+        </li>
+        <li>**Actualizaciones Estructuradas:** El Líder debe emitir actualizaciones periódicas (ej. cada 30 minutos) con el formato: **Qué** (resumen del problema), **Impacto** (estado actual), **Haciendo** (acciones en curso), **Próximo Paso**.</li>
+    </ul>
+
+    <h2>4. Contención, Erradicación y Recuperación</h2>
+    <h3>4.1. Contención (Limitar el Daño)</h3>
+    <p>Detener la propagación del incidente para evitar más perjuicios.</p>
+    <ul class="sub-list">
+        <li>**Aislamiento:** Desconectar el sistema comprometido de la red o redirigir el tráfico a una página de mantenimiento estática.</li>
+        <li>**Bloqueo:** Bloquear inmediatamente las IP maliciosas a través del *firewall* o WAF.</li>
+        <li>**Toma de Imagen:** Crear una copia forense o instantánea (*snapshot*) del sistema afectado para el análisis posterior, antes de cualquier cambio.</li>
+    </ul>
+
+    <h3>4.2. Erradicación (Eliminar la Causa Raíz)</h3>
+    <p>Eliminar la vulnerabilidad y el código malicioso.</p>
+    <ul class="sub-list">
+        <li>**Análisis de Causa Raíz:** Identificar exactamente cómo se produjo el compromiso (ej. un *exploit* específico, una contraseña débil).</li>
+        <li>**Limpieza:** Eliminar todo el *malware*, *backdoors* y archivos inyectados.</li>
+        <li>**Parcheo:** Aplicar parches de seguridad, actualizar el CMS/Framework y corregir el código vulnerable para cerrar la brecha.</li>
+    </ul>
+
+    <h3>4.3. Recuperación (Restaurar el Servicio)</h3>
+    <p>Devolver el servicio a un estado operacional normal y seguro.</p>
+    <ul class="sub-list">
+        <li>**Restauración:** Desplegar el sistema desde la **última copia de seguridad (*backup*) limpia y verificada** si la erradicación manual no es viable.</li>
+        <li>**Pruebas Exhaustivas:** Realizar pruebas funcionales y de seguridad para confirmar que el incidente está resuelto y que no hay efectos secundarios.</li>
+        <li>**Monitoreo Reforzado:** Poner el sitio en producción con un nivel de vigilancia superior para detectar cualquier recurrencia.</li>
+    </ul>
+
+    <h2>5. Recomendaciones Finales para Realizar esta Página Web</h2>
+    <p>Para construir una plataforma resiliente y fácil de gestionar:</p>
+    <ul class="sub-list">
+        <li>**Seguridad Perimetral (WAF):** Implementar un **Web Application Firewall (WAF)** (ej. Cloudflare) para filtrar el tráfico malicioso (DDoS, SQLi, XSS) **antes** de que llegue al servidor. 
+
+[Image of a Web Application Firewall (WAF) protecting a server]
+</li>
+        <li>**Backups Automatizados:** Configurar copias de seguridad (*backups*) **diarias y externas** (almacenadas fuera del servidor web principal).</li>
+        <li>**Actualizaciones Constantes:** Mantener siempre el **CMS/Framework** y todos sus componentes (*plugins*, módulos, librerías) **actualizados**.</li>
+        <li>**Uso de HTTPS:** Implementar un certificado **SSL/TLS** (HTTPS) para cifrar todo el tráfico entre el navegador y el servidor.</li>
+        <li>**Gestión de Logs:** Centralizar y revisar los registros (*logs*) de acceso, errores y seguridad para una detección temprana.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Nota Final:</strong> Tras la recuperación, se debe realizar una **Revisión Post-Incidente** para documentar lo ocurrido, evaluar la efectividad de la respuesta y determinar acciones preventivas futuras.
+    </div>
+
+</body>
+</html>
